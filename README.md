@@ -5,7 +5,7 @@ Collection of PyroSim models created by Thunderhead Engineering
 
 
 ## FDS environment to run multiple meshes using MPI
-FDS 6.3.X requires Open MPI 1.8.4 to run in parallel mode.
+FDS 6.3.X requires Open MPI 1.8.4 to run in parallel mode. NIST provides [information about requirements](https://github.com/firemodels/fds-smv/wiki/Installing-and-Running-FDS-on-a-Linux-Cluster#running-with-mpi-distributed-memory-computing) as well as [pre-compiled binaries](https://github.com/firemodels/fds-smv/wiki/Installing-Open-MPI-on-a-Linux-Cluster#installing-open-mpi-from-pre-compiled-binaries).
 
 Validate Open MPI environment 
 
