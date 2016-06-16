@@ -116,6 +116,42 @@ $ dist/openmpi_64/bin/mpiexec -np 4 bin/fds atrium_with_fans.fds
  Time Step:      5, Simulation Time:      0.28 s
  ```
 
+## Run model with FDS 6.4.0
+Extract FDS 6.4.0 in `dist` folder to `bin` folder. Run the simulation with this command
+
+```
+$ dist/openmpi_64/bin/mpiexec -np 4 bin/fds atrium_with_fans.fds
+ Mesh      1 is assigned to MPI Process      0
+ Mesh      2 is assigned to MPI Process      1
+ Mesh      3 is assigned to MPI Process      2
+ Mesh      4 is assigned to MPI Process      3
+ Completed Initialization Step  1
+ Completed Initialization Step  2
+ Completed Initialization Step  3
+ Completed Initialization Step  4
+
+ Fire Dynamics Simulator
+
+ Current Date     : May 23, 2016  21:59:30
+ Version          : FDS 6.4.0
+ Revision         : Git-r10-48-g5996289
+ Revision Date    : Thu Apr 7 11:24:39 2016 -0400
+ Compilation Date : Apr 07, 2016  11:43:03
+
+ MPI Enabled; Number of MPI Processes:     4
+ OpenMP Enabled; Number of OpenMP Threads:   1
+
+ MPI version: 3.0
+ MPI library version: Open MPI v1.8.4, package: Open MPI gforney@blaze Distribution, ident: 1.8.4, repo rev: v1.8.3-330-g0344f04, Dec 19, 2014
+
+ Job TITLE        : 
+ Job ID string    : atrium_with_fans
+
+ Time Step:      1, Simulation Time:      0.06 s
+ Time Step:      2, Simulation Time:      0.11 s
+ Time Step:      3, Simulation Time:      0.17 s
+ Time Step:      4, Simulation Time:      0.22 s
+```
 
 ## Validate working Open MPI environment.
 
