@@ -4,8 +4,8 @@ Collection of PyroSim models created by Thunderhead Engineering
 * [Atrium with fans](http://www.thunderheadeng.com/pyrosim/fundamentals/#atrium_example)
 
 
-## FDS runtime environment to run multiple meshes using Open MPI - Ubuntu 14.04 x64 LTS
-FDS 6.3.X requires Open MPI 1.8.4 to run in parallel mode. NIST provides [information about requirements](https://github.com/firemodels/fds-smv/wiki/Installing-and-Running-FDS-on-a-Linux-Cluster#running-with-mpi-distributed-memory-computing) as well as [pre-compiled binaries](https://github.com/firemodels/fds-smv/wiki/Installing-Open-MPI-on-a-Linux-Cluster#installing-open-mpi-from-pre-compiled-binaries).
+## Run FDS in parallel using Open MPI
+FDS 6.3.X requires Open MPI 1.8.4 to run in parallel mode. NIST provides [information about requirements](https://github.com/firemodels/fds-smv/wiki/Installing-and-Running-FDS-on-a-Linux-Cluster#running-with-mpi-distributed-memory-computing) as well as [pre-compiled binaries](https://github.com/firemodels/fds-smv/wiki/Installing-Open-MPI-on-a-Linux-Cluster#installing-open-mpi-from-pre-compiled-binaries). This was tested on Ubuntu 14.04 x64 LTS.
 
 Clone this repository. This repository ships with FDS 6.3.0 and pre-compiled OpenMPI 1.8.4. 
 
@@ -40,7 +40,9 @@ Limit number of OpenMP threads
 $ export OMP_NUM_THREADS=1
 ```
 
-Run the model with FDS 6.3.0
+## Run model with FDS 6.3.0
+
+Since the given FDS model has 4 meshes we run the simulation using the instruction shown below. 
 
 ```
 $ dist/openmpi_64/bin/mpiexec -np 4 bin/fds atrium_with_fans.fds 
@@ -115,7 +117,7 @@ $ /shared/openmpi_64/bin/mpiexec -np 4 ~/Downloads/fds-smv/6.3.1/bin/fds atrium_
  ```
 
 
-Validate working Open MPI environment. This only works if you extract pre-compiled Open MPI to `/shared` folder. 
+## Validate working Open MPI environment. This only works if you extract pre-compiled Open MPI to `/shared` folder. 
 
 ```
 $ /shared/openmpi_64/bin/mpiexec -version
