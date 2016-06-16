@@ -79,10 +79,10 @@ $ dist/openmpi_64/bin/mpiexec -np 4 bin/fds atrium_with_fans.fds
 ```
 
 ## Run model with FDS 6.3.1
-FDS 6.3.1 is a bit less verbose but shows useful information about MPI version in use.
+FDS 6.3.1 is a bit less verbose but shows useful information about MPI version in use. All you have to do is provide FDS 6.3.1 to `bin` folder.
 
 ```
-$ /shared/openmpi_64/bin/mpiexec -np 4 ~/Downloads/fds-smv/6.3.1/bin/fds atrium_with_fans.fds 
+$ dist/openmpi_64/bin/mpiexec -np 4 bin/fds atrium_with_fans.fds 
  Mesh      1 is assigned to MPI Process      0
  Mesh      2 is assigned to MPI Process      1
  Mesh      3 is assigned to MPI Process      2
@@ -117,7 +117,9 @@ $ /shared/openmpi_64/bin/mpiexec -np 4 ~/Downloads/fds-smv/6.3.1/bin/fds atrium_
  ```
 
 
-## Validate working Open MPI environment. This only works if you extract pre-compiled Open MPI to `/shared` folder. 
+## Validate working Open MPI environment.
+
+This only works if you extract pre-compiled Open MPI to `/shared` folder. 
 
 ```
 $ /shared/openmpi_64/bin/mpiexec -version
