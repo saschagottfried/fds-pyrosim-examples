@@ -4,40 +4,46 @@ Collection of PyroSim models created by Thunderhead Engineering
 * [Atrium with fans](http://www.thunderheadeng.com/pyrosim/fundamentals/#atrium_example)
 
 
-## FDS environment to run multiple meshes using MPI
+## FDS runtime environment to run multiple meshes using Open MPI - Ubuntu 14.04 x64 LTS
 FDS 6.3.X requires Open MPI 1.8.4 to run in parallel mode. NIST provides [information about requirements](https://github.com/firemodels/fds-smv/wiki/Installing-and-Running-FDS-on-a-Linux-Cluster#running-with-mpi-distributed-memory-computing) as well as [pre-compiled binaries](https://github.com/firemodels/fds-smv/wiki/Installing-Open-MPI-on-a-Linux-Cluster#installing-open-mpi-from-pre-compiled-binaries).
 
-Validate Open MPI environment 
+Clone this repository. This repository ships with FDS 6.3.0 and pre-compiled OpenMPI 1.8.4. 
 
 ```
-$ /shared/openmpi_64/bin/mpiexec -version
-nmpiexec (OpenRTE) 1.8.4
-
-Report bugs to http://www.open-mpi.org/community/help/
+$ git clone https://github.com/saschagottfried/fds-pyrosim-examples
 ```
 
-Add FDS libraries to shared libraries environment
+Extract pre-compiled archive in `dist` folder.
 
 ```
-$ export LD_LIBRARY_PATH=~/Downloads/fds-smv/6.3.0/bin/LIB64
+$ cd fds-pyrosim-examples
+$ cd dist
+$ tar -xvzf openmpi_1.8.4_linux_64.tar.gz
+$ cd ..
 ```
 
-Increase stack size. Otherwise a larger model runs into segmentation fault.
+Add FDS libraries in `bin` folder to shared libraries environment. Adjust absolute path to your environment.
+
+```
+$ export LD_LIBRARY_PATH=bin/LIB64
+```
+
+Increase stack size. Otherwise a larger FDS model runs into a segmentation fault.
 
 ```
 $ ulimit -s unlimited
 ```
 
-Limit OpenMP threads for MPI execution
+Limit number of OpenMP threads
 
 ```
 $ export OMP_NUM_THREADS=1
 ```
 
-Run the model
+Run the model with FDS 6.3.0
 
 ```
-$ /shared/openmpi_64/bin/mpiexec -np 4 ~/Downloads/fds-smv/6.3.0/bin/fds atrium_with_fans.fds 
+$ dist/openmpi_64/bin/mpiexec -np 4 bin/fds atrium_with_fans.fds 
  Mesh   1 is assigned to MPI Process   0
  Mesh   2 is assigned to MPI Process   1
  Mesh   3 is assigned to MPI Process   2
@@ -71,7 +77,7 @@ $ /shared/openmpi_64/bin/mpiexec -np 4 ~/Downloads/fds-smv/6.3.0/bin/fds atrium_
 ```
 
 ## Run model with FDS 6.3.1
-FDS 6.3.1 is a bit less verbose but shows useful information on MPI version and implementation.
+FDS 6.3.1 is a bit less verbose but shows useful information about MPI version in use.
 
 ```
 $ /shared/openmpi_64/bin/mpiexec -np 4 ~/Downloads/fds-smv/6.3.1/bin/fds atrium_with_fans.fds 
@@ -107,3 +113,13 @@ $ /shared/openmpi_64/bin/mpiexec -np 4 ~/Downloads/fds-smv/6.3.1/bin/fds atrium_
  Time Step:      4, Simulation Time:      0.22 s
  Time Step:      5, Simulation Time:      0.28 s
  ```
+
+
+Validate working Open MPI environment. This only works if you extract pre-compiled Open MPI to `/shared` folder. 
+
+```
+$ /shared/openmpi_64/bin/mpiexec -version
+mpiexec (OpenRTE) 1.8.4
+
+Report bugs to http://www.open-mpi.org/community/help/
+```
