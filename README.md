@@ -4,40 +4,48 @@ Collection of PyroSim models created by Thunderhead Engineering
 * [Atrium with fans](http://www.thunderheadeng.com/pyrosim/fundamentals/#atrium_example)
 
 
-## FDS environment to run multiple meshes using MPI
-FDS 6.3.X requires Open MPI 1.8.4 to run in parallel mode. NIST provides [information about requirements](https://github.com/firemodels/fds-smv/wiki/Installing-and-Running-FDS-on-a-Linux-Cluster#running-with-mpi-distributed-memory-computing) as well as [pre-compiled binaries](https://github.com/firemodels/fds-smv/wiki/Installing-Open-MPI-on-a-Linux-Cluster#installing-open-mpi-from-pre-compiled-binaries).
+## Run FDS in parallel using Open MPI
+FDS 6.3.X requires Open MPI 1.8.4 to run in parallel mode. NIST provides [information about requirements](https://github.com/firemodels/fds-smv/wiki/Installing-and-Running-FDS-on-a-Linux-Cluster#running-with-mpi-distributed-memory-computing) as well as [pre-compiled binaries](https://github.com/firemodels/fds-smv/wiki/Installing-Open-MPI-on-a-Linux-Cluster#installing-open-mpi-from-pre-compiled-binaries). This was tested on Ubuntu 14.04 x64 LTS.
 
-Validate Open MPI environment 
-
-```
-$ /shared/openmpi_64/bin/mpiexec -version
-nmpiexec (OpenRTE) 1.8.4
-
-Report bugs to http://www.open-mpi.org/community/help/
-```
-
-Add FDS libraries to shared libraries environment
+Clone this repository. This repository ships with FDS 6.3.0 and pre-compiled OpenMPI 1.8.4. 
 
 ```
-$ export LD_LIBRARY_PATH=~/Downloads/fds-smv/6.3.0/bin/LIB64
+$ git clone https://github.com/saschagottfried/fds-pyrosim-examples
 ```
 
-Increase stack size. Otherwise a larger model runs into segmentation fault.
+Extract pre-compiled archive in `dist` folder.
+
+```
+$ cd fds-pyrosim-examples
+$ cd dist
+$ tar -xvzf openmpi_1.8.4_linux_64.tar.gz
+$ cd ..
+```
+
+Add FDS libraries in `bin` folder to shared libraries environment. Adjust absolute path to your environment.
+
+```
+$ export LD_LIBRARY_PATH=bin/LIB64
+```
+
+Increase stack size. Otherwise a larger FDS model runs into a segmentation fault.
 
 ```
 $ ulimit -s unlimited
 ```
 
-Limit OpenMP threads for MPI execution
+Limit number of OpenMP threads
 
 ```
 $ export OMP_NUM_THREADS=1
 ```
 
-Run the model
+## Run model with FDS 6.3.0
+
+Since the given FDS model has 4 meshes we run the simulation using the instruction shown below. 
 
 ```
-$ /shared/openmpi_64/bin/mpiexec -np 4 ~/Downloads/fds-smv/6.3.0/bin/fds atrium_with_fans.fds 
+$ dist/openmpi_64/bin/mpiexec -np 4 bin/fds atrium_with_fans.fds 
  Mesh   1 is assigned to MPI Process   0
  Mesh   2 is assigned to MPI Process   1
  Mesh   3 is assigned to MPI Process   2
@@ -71,10 +79,10 @@ $ /shared/openmpi_64/bin/mpiexec -np 4 ~/Downloads/fds-smv/6.3.0/bin/fds atrium_
 ```
 
 ## Run model with FDS 6.3.1
-FDS 6.3.1 is a bit less verbose but shows useful information on MPI version and implementation.
+FDS 6.3.1 is a bit less verbose but shows useful information about MPI version in use. All you have to do is provide FDS 6.3.1 to `bin` folder.
 
 ```
-$ /shared/openmpi_64/bin/mpiexec -np 4 ~/Downloads/fds-smv/6.3.1/bin/fds atrium_with_fans.fds 
+$ dist/openmpi_64/bin/mpiexec -np 4 bin/fds atrium_with_fans.fds 
  Mesh      1 is assigned to MPI Process      0
  Mesh      2 is assigned to MPI Process      1
  Mesh      3 is assigned to MPI Process      2
@@ -107,3 +115,51 @@ $ /shared/openmpi_64/bin/mpiexec -np 4 ~/Downloads/fds-smv/6.3.1/bin/fds atrium_
  Time Step:      4, Simulation Time:      0.22 s
  Time Step:      5, Simulation Time:      0.28 s
  ```
+
+## Run model with FDS 6.4.0
+Extract FDS 6.4.0 in `dist` folder to `bin` folder. Run the simulation with this command
+
+```
+$ dist/openmpi_64/bin/mpiexec -np 4 bin/fds atrium_with_fans.fds
+ Mesh      1 is assigned to MPI Process      0
+ Mesh      2 is assigned to MPI Process      1
+ Mesh      3 is assigned to MPI Process      2
+ Mesh      4 is assigned to MPI Process      3
+ Completed Initialization Step  1
+ Completed Initialization Step  2
+ Completed Initialization Step  3
+ Completed Initialization Step  4
+
+ Fire Dynamics Simulator
+
+ Current Date     : May 23, 2016  21:59:30
+ Version          : FDS 6.4.0
+ Revision         : Git-r10-48-g5996289
+ Revision Date    : Thu Apr 7 11:24:39 2016 -0400
+ Compilation Date : Apr 07, 2016  11:43:03
+
+ MPI Enabled; Number of MPI Processes:     4
+ OpenMP Enabled; Number of OpenMP Threads:   1
+
+ MPI version: 3.0
+ MPI library version: Open MPI v1.8.4, package: Open MPI gforney@blaze Distribution, ident: 1.8.4, repo rev: v1.8.3-330-g0344f04, Dec 19, 2014
+
+ Job TITLE        : 
+ Job ID string    : atrium_with_fans
+
+ Time Step:      1, Simulation Time:      0.06 s
+ Time Step:      2, Simulation Time:      0.11 s
+ Time Step:      3, Simulation Time:      0.17 s
+ Time Step:      4, Simulation Time:      0.22 s
+```
+
+## Validate working Open MPI environment.
+
+This only works if you extract pre-compiled Open MPI to `/shared` folder. 
+
+```
+$ /shared/openmpi_64/bin/mpiexec -version
+mpiexec (OpenRTE) 1.8.4
+
+Report bugs to http://www.open-mpi.org/community/help/
+```
